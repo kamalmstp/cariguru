@@ -10,6 +10,7 @@ class Auth extends CI_Controller {
         //load model
         $this->load->model('Auth_model', 'auth');
         $this->load->model('Admin_model', 'admin');
+        $this->load->model('Mitra_model', 'mitra');
         $this->load->model('Mail', 'mail');
         $this->load->library('form_validation');
     }
@@ -68,7 +69,7 @@ class Auth extends CI_Controller {
         $data = array();
         $data['metaDescription'] = 'Login';
         $data['metaKeywords'] = 'Login';
-        $data['title'] = "Login | Cari Guru";
+        $data['title'] = "Login | CariGuru";
         $data['breadcrumbs'] = array('Login' => '#');
         $this->load->view('auth/login', $data);
     }
@@ -82,7 +83,7 @@ class Auth extends CI_Controller {
         $data = array();
         $data['metaDescription'] = 'Login';
         $data['metaKeywords'] = 'Login';
-        $data['title'] = "Login | Cari Guru";
+        $data['title'] = "Login | CariGuru";
         $data['breadcrumbs'] = array('Login' => '#');
         $this->load->view('auth/login_mitra', $data);
     }
@@ -96,7 +97,7 @@ class Auth extends CI_Controller {
         $data = array();
         $data['metaDescription'] = 'Login';
         $data['metaKeywords'] = 'Login';
-        $data['title'] = "Login | Cari Guru";
+        $data['title'] = "Login | CariGuru";
         $data['breadcrumbs'] = array('Login' => '#');
         $this->load->view('auth/login_admin', $data);
     }
@@ -291,6 +292,43 @@ class Auth extends CI_Controller {
             }
         }
     }
+
+    function doLogin_mitra() {
+        // Check form  validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('email', 'User Name/Email', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        if ($this->form_validation->run() == FALSE) {
+            //Field validation failed.  User redirected to login page
+            $this->login;
+        } else {
+            $sessArray = array();
+            //Field validation succeeded.  Validate against database
+            $username = $this->input->post('email');
+            $password = $this->input->post('password');
+ 
+            $this->mitra->setEmail($username);
+            $this->mitra->setPassword($password);
+            //query the database
+            $result = $this->mitra->login();
+ 
+            if (!empty($result) && count($result) > 0) {
+                foreach ($result as $row) {
+                    $authArray = array(
+                        'user_id' => $row->id_mitra,
+                        'user_name' => $row->nama,
+                        'email' => $row->email,
+                        'tipe' => 'mitra'
+                    );
+                    $this->session->set_userdata('ci_session_key_generate', TRUE);
+                    $this->session->set_userdata('ci_seesion_key', $authArray);
+                }
+                redirect(site_url('mitraguru'), 'refresh');
+            } else {
+                redirect('mitra?msg=1');
+            }
+        }
+    }
  
     public function actionChangePwd() {
         $this->form_validation->set_rules('change_pwd_password', 'Password', 'trim|required|min_length[8]');
@@ -326,7 +364,7 @@ class Auth extends CI_Controller {
                 $this->load->library('encryption');
                 $mailData = array('topMsg' => 'Hi', 'bodyMsg' => 'Your password has been reset successfully!.', 'thanksMsg' => 'SITE_DELIMETER_MSG', 'delimeter' => 'SITE_DELIMETER', 'loginLink' => $login, 'pwd' => $pass, 'username' => $email);
                 $this->mail->setMailTo($email);
-                $this->mail->setMailFrom('totosingapura6d@gmail.com');
+                $this->mail->setMailFrom('noreply.cariguru@gmail.com');
                 $this->mail->setMailSubject('Forgot Password!');
                 $this->mail->setMailContent($mailData);
                 $this->mail->setTemplateName('sendpwd');
@@ -364,7 +402,7 @@ class Auth extends CI_Controller {
         $this->session->sess_destroy();
         $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
         $this->output->set_header("Pragma: no-cache");
-        redirect('signin');
+        redirect('home');
     }
  
 }

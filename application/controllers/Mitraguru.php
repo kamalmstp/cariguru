@@ -2,7 +2,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Administrator extends CI_Controller
+class Mitraguru extends CI_Controller
 {
 	function __construct()
 	{
@@ -19,9 +19,9 @@ class Administrator extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin'); // the user is not logged in, redirect them!
+            redirect('mitra'); // the user is not logged in, redirect them!
         } else {
-            redirect('administrator/dashboard');
+            redirect('mitraguru/dashboard');
         }
     }
 
@@ -29,21 +29,84 @@ class Administrator extends CI_Controller
     function dashboard()
     {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin'); // the user is not logged in, redirect them!
+            redirect('mitra'); // the user is not logged in, redirect them!
         } else {
             $page_data['page_name']  = 'dashboard';
-            $page_data['page_title'] = 'Administrator Dashboard';
+            $page_data['page_title'] = 'Mitra Dashboard';
             $this->load->view('backend/index', $page_data);
         }
     }
 
-    function kurikulum() {
+    function profile() {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin');
+            redirect('mitra');
         } else {
-            $page_data['page_name'] = 'kurikulum';
-            $page_data['page_title'] = 'Data Kurikulum';
-            $page_data['data'] = $this->M_study->get_kurikulum()->result();
+            $session = $this->session->userdata('ci_seesion_key');
+            $id = $session['user_id'];
+            $this->mitra->setIdMitra($id);
+            $page_data['page_name'] = 'profile';
+            $page_data['page_title'] = 'Profile Mitra';
+            $page_data['mitra'] = $this->mitra->getUserDetails();
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function jadwal() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'profile';
+            $page_data['page_title'] = 'Profile Mitra';
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function review() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'review';
+            $page_data['page_title'] = 'Review Siswa';
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function evaluasi() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'evaluasi';
+            $page_data['page_title'] = 'Evaluasi Siswa';
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function blog() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'blog';
+            $page_data['page_title'] = 'Blog';
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function withdraw() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'withdraw';
+            $page_data['page_title'] = 'Pencairan Dana';
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function help() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra');
+        } else {
+            $page_data['page_name'] = 'help';
+            $page_data['page_title'] = 'Bantuan Mitra';
             $this->load->view('backend/index', $page_data);
         }
     }
@@ -74,7 +137,7 @@ class Administrator extends CI_Controller
 
     function jenjang() {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin');
+            redirect('mitra');
         } else {
             $page_data['page_name'] = 'jenjang';
             $page_data['page_title'] = 'Data Jenjang';
@@ -108,7 +171,7 @@ class Administrator extends CI_Controller
 
     function mapel() {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin');
+            redirect('mitra');
         } else {
             $page_data['page_name'] = 'mapel';
             $page_data['page_title'] = 'Data Mapel';
@@ -190,7 +253,7 @@ class Administrator extends CI_Controller
 
     function mitra() {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
-            redirect('admin'); // the user is not logged in, redirect them!
+            redirect('mitra'); // the user is not logged in, redirect them!
         } else {
             $page_data['page_name'] = 'mitra';
             $page_data['page_title'] = 'Data Mitra';

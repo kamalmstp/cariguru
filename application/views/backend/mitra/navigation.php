@@ -7,7 +7,7 @@
       <?php 
         $tipe = $session['tipe'];
         $id = $session['user_id'];
-        $user = $this->db->get_where('admin', array('id_'.$tipe => $id))->row();
+        $user = $this->db->get_where('mitra', array('id_'.$tipe => $id))->row();
 
         if ($user->foto == null) { ?>
           <div>
@@ -16,7 +16,7 @@
               <a href="<?=site_url('admin/profile_edit')?>"><i data-feather="edit"></i></a>
             </div>
           </div>
-            <h6 class="mt-3 f-14"><?=$user->name;?></h6>
+            <h6 class="mt-3 f-14"><?=$user->nama;?></h6>
             <p><?=$tipe;?></p>
         <?php }else{ ?>
           <div>
@@ -25,43 +25,29 @@
               <a href="<?=site_url('admin/profile_edit')?>"><i data-feather="edit"></i></a>
             </div>
           </div>
-            <h6 class="mt-3 f-14"><?=$user->name;?></h6>
+            <h6 class="mt-3 f-14"><?=$user->nama;?></h6>
             <p><?=$tipe;?></p>
         <?php } ?>
     </div>
     <ul class="sidebar-menu">
-      <li <?php if ($page_name == 'dashboard') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('administrator')?>"><i data-feather="home"></i><span>Dashboard</span></a>
+      <li <?php if ($page_name == 'profile') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/profile')?>"><i data-feather="user"></i><span>Profile</span></a>
       </li>
-      <li><a class="sidebar-header" href="#"><i data-feather="users"></i><span>Pengguna</span><i class="fa fa-angle-right pull-right"></i></a>
-        <ul class="sidebar-submenu">
-          <li><a href="<?=site_url('administrator/mitra')?>"><i class="fa fa-circle"></i>Guru</a></li>
-          <li><a href="<?=site_url('administrator/user')?>"><i class="fa fa-circle"></i>Murid</a></li>
-          <li><a href="<?=site_url('administrator/admin')?>"><i class="fa fa-circle"></i>Operator</a></li>
-        </ul>
+      <li <?php if ($page_name == 'jadwal') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/jadwal')?>"><i data-feather="calendar"></i><span>Jadwal Mengajar</span></a>
       </li>
-      <li><a class="sidebar-header" href="#"><i data-feather="shopping-cart"></i><span>Transaksi</span><i class="fa fa-angle-right pull-right"></i></a>
+      <li <?php if ($page_name == 'review') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/review')?>"><i data-feather="star"></i><span>Review Murid</span></a>
+      </li>
+      <li <?php if ($page_name == 'evaluasi') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/evaluasi')?>"><i data-feather="file"></i><span>Evaluasi Murid</span></a>
+      </li>
+      <li><a class="sidebar-header" href="#"><i data-feather="edit"></i><span>Blog</span><i class="fa fa-angle-right pull-right"></i></a>
         <ul class="sidebar-submenu">
           <li><a href="#"><i class="fa fa-circle"></i>Pending</a></li>
           <li><a href="#"><i class="fa fa-circle"></i>Belum Dibayar</a></li>
           <li><a href="#"><i class="fa fa-circle"></i>Berhasil</a></li>
         </ul>
       </li>
-      <li <?php if ($page_name == 'kurikulum' || $page_name == 'jenjang' || $page_name == 'mapel') {echo "class='active'";} ?>><a class="sidebar-header" href="#"><i data-feather="layers"></i><span>Belajar & Pembelajaran</span><i class="fa fa-angle-right pull-right"></i></a>
-        <ul class="sidebar-submenu">
-          <li><a href="#"><i class="fa fa-circle"></i>Evaluasi Belajar</a></li>
-          <li <?php if ($page_name == 'mapel') {echo "class='active'";} ?>><a href="<?=site_url('administrator/mapel');?>"><i class="fa fa-circle"></i>Mata Pelajaran</a></li>
-          <li <?php if ($page_name == 'jenjang') {echo "class='active'";} ?>><a href="<?=site_url('administrator/jenjang');?>"><i class="fa fa-circle"></i>Jenjang</a></li>
-          <li <?php if ($page_name == 'kurikulum') {echo "class='active'";} ?>><a href="<?=site_url('administrator/kurikulum');?>"><i class="fa fa-circle"></i>Kurikulum</a></li>
-        </ul>
+      <li <?php if ($page_name == 'withdraw') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/withdraw')?>"><i data-feather="dollar-sign"></i><span>Pencairan Dana</span></a>
       </li>
-      <li><a class="sidebar-header" href="#" target="_blank"><i data-feather="aperture"></i><span> Link Guru Meet</span></a></li>
-      <li><a class="sidebar-header" href="#"><i data-feather="edit"></i><span> Blog</span></a></li>
-      <li><a class="sidebar-header" href="#"><i data-feather="dollar-sign"></i><span> Pencairan Dana</span></a></li>
-      <li><a class="sidebar-header" href="#"><i data-feather="settings"></i><span>Setting</span><i class="fa fa-angle-right pull-right"></i></a>
-        <ul class="sidebar-submenu">
-          <li><a href="<?=site_url('administrator/profile')?>"><i class="fa fa-circle"></i>Profile</a></li>
-          <li><a href="<?=site_url('administrator/biaya')?>"><i class="fa fa-circle"></i>Setting Biaya</a></li>
-        </ul>
+      <li <?php if ($page_name == 'help') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('mitraguru/help')?>"><i data-feather="settings"></i><span>Bantuan</span></a>
       </li>
     </ul>
     <!-- <div class="sidebar-user text-center">

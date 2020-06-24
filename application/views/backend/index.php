@@ -5,7 +5,7 @@ $session = $this->session->userdata('ci_seesion_key');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Cari Guru | <?=$page_title;?></title>
+    <title>CariGuru | <?=$page_title;?></title>
     <?php include 'top.php'; ?>
   </head>
   <body>
@@ -53,7 +53,7 @@ $session = $this->session->userdata('ci_seesion_key');
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6 footer-copyright">
-                <p class="mb-0">Copyright 2020 © Cari Guru rights reserved.</p>
+                <p class="mb-0">Copyright 2020 © CariGuru rights reserved.</p>
               </div>
             </div>
           </div>

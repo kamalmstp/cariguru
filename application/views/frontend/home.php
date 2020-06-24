@@ -24,7 +24,7 @@
     </div>
   </div>
   <div>
-    Cari Guru
+    CariGuru
   </div>
 </section>
 

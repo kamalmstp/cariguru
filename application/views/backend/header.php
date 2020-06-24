@@ -48,7 +48,7 @@
           if ($user1->foto == null) { ?>
             <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/') ?>img/user/user.png" alt="header-user">
           <?php }else{ ?>
-            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/img/user/'.$user->foto) ?>" alt="header-user">
+            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/img/user/'.$user1->foto) ?>" alt="header-user">
           <?php } ?>
           <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
         </div>

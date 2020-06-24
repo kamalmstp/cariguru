@@ -50,7 +50,7 @@ class Mail extends CI_Model {
                 'protocol' => 'smtp',
                 'smtp_host' => 'ssl://smtp.googlemail.com',
                 'smtp_port' => 465,
-                'smtp_user' => 'totosingapura6d@gmail.com',
+                'smtp_user' => 'cariguru.noreply@gmail.com',
                 'smtp_pass' => 'ta9asTOP',
                 'mailtype' => 'html',
                 'charset' => 'utf-8',
@@ -64,7 +64,7 @@ class Mail extends CI_Model {
             //Email content
             $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
             $this->email->to($this->_mailTo);
-            $this->email->from($this->_mailFrom, 'Cari Guru');
+            $this->email->from($this->_mailFrom, 'CariGuru');
             $this->email->subject($this->_mailSubject);
             $this->email->message($mailMessage);
             //Send email
