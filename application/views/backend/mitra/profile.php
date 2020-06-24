@@ -10,7 +10,7 @@
           <form>
             <div class="row mb-2">
               <div class="col-auto">
-              	<img class="img-70 rounded-circle" alt="" src="<?=base_url();?>public/img/user/user.jpg"></div>
+              	<img class="img-70 rounded-circle" alt="" src="<?=base_url();?>public/img/user/user.png"></div>
               <div class="col">
                 <h3 class="mb-1"><?=$mitra->nama;?></h3>
                 <p class="mb-4">Guru</p>

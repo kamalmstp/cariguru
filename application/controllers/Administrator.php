@@ -231,12 +231,15 @@ class Administrator extends CI_Controller
                 $chkStatus = $this->mail->sendMail('smtp');
 
                 if ($chkStatus === TRUE) {
-                    echo "Data dan Email Berhasil dikirim";
+                    $this->session->set_flashdata('success', 'Data Berhasil Disimpan & Email Terkirim');
+                    redirect('administrator/mitra');
                 } else {
-                    echo "Data Berhasil disimpan tapi Gagal mengirim email";
+                    $this->session->set_flashdata('success', 'Data Berhasil Disimpan, Email Tidak Terkirim');
+                    redirect('administrator/mitra');
                 }
             } else {
-                echo "gagal";
+                $this->session->set_flashdata('error', 'Data Gagal Disimpan');
+                redirect('administrator/mitra');
             }
         }
     }

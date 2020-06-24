@@ -64,3 +64,4 @@ $session = $this->session->userdata('ci_seesion_key');
     <?php include 'bottom.php'; ?>
   </body>
 </html>
+<script>

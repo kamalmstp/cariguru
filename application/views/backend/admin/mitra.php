@@ -10,14 +10,15 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <?php if (validation_errors()) { ?>
-                  <div class="alert alert-danger">
-                      <?php echo validation_errors(); ?>
+              <?php if (!empty($this->session->flashdata('success'))) { ?>
+                  <div class="alert alert-success dark alert-dismissible fade show" role="alert">
+                    <strong>Suksess </strong><?php echo $this->session->flashdata('success'); ?>
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                   </div>
-              <?php } ?>
-              <?php if (!empty($this->input->get('msg')) && $this->input->get('msg') == 1) { ?>
-                  <div class="alert alert-danger">
-                      Error
+              <?php }elseif (!empty($this->session->flashdata('error'))) { ?>
+                  <div class="alert alert-danger dark alert-dismissible fade show" role="alert">
+                    <strong>Suksess </strong><?php echo $this->session->flashdata('error'); ?>
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                   </div>
               <?php } ?>
               <table class="table table-striped table-bordered" id="dataTables">
