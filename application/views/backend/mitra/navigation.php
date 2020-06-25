@@ -13,16 +13,16 @@
           <div>
             <img class="img-60 rounded-circle" src="<?php echo base_url('public/') ?>img/user/user.png" alt="#">
             <div class="profile-edit">
-              <a href="<?=site_url('admin/profile_edit')?>"><i data-feather="edit"></i></a>
+              <a href="<?=site_url('mitraguru/profile')?>"><i data-feather="edit"></i></a>
             </div>
           </div>
             <h6 class="mt-3 f-14"><?=$user->nama;?></h6>
             <p><?=$tipe;?></p>
         <?php }else{ ?>
           <div>
-            <img class="img-60 rounded-circle" src="<?php echo base_url('public/img/user/'.$user->foto) ?>" alt="#">
+            <img class="img-60 rounded-circle" src="<?php echo base_url('public/img/mitra/'.$user->foto) ?>" alt="#">
             <div class="profile-edit">
-              <a href="<?=site_url('admin/profile_edit')?>"><i data-feather="edit"></i></a>
+              <a href="<?=site_url('mitraguru/profile')?>"><i data-feather="edit"></i></a>
             </div>
           </div>
             <h6 class="mt-3 f-14"><?=$user->nama;?></h6>

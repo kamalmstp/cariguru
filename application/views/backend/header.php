@@ -46,32 +46,24 @@
           $user1 = $this->db->get_where($tipe1, array('id_'.$tipe1 => $id1))->row();
 
           if ($user1->foto == null) { ?>
-            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/') ?>img/user/user.png" alt="header-user">
+            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/') ?>img/user/user.jpg" alt="header-user">
           <?php }else{ ?>
-            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/img/user/'.$user1->foto) ?>" alt="header-user">
+            <img class="align-self-center pull-right img-50 rounded-circle" src="<?php echo base_url('public/img/mitra/'.$user1->foto) ?>" alt="header-user">
           <?php } ?>
           <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
         </div>
         <ul class="profile-dropdown onhover-show-div p-20">
-          <li><a href="#"><i data-feather="user"></i>                                    Edit Profile</a></li>
-          <!-- <li><a href="#"><i data-feather="mail"></i>                                    Inbox</a></li> -->
-          <li><a href="#"><i data-feather="settings"></i>                                    Settings</a></li>
+          <?php if($tipe1 == 'mitra'){ ?>
+          <li><a href="<?=site_url('mitraguru/edit_password')?>"><i data-feather="user"></i>Ubah Password</a></li>
+          <?php }else{ ?>
+            <li><a href="<?=site_url('administrator/edit_password')?>"><i data-feather="user"></i>Ubah Password</a></li>
+          <?php } ?>
+          <!-- <li><a href="#"><i data-feather="mail"></i>Inbox</a></li> -->
+          <!-- <li><a href="#"><i data-feather="settings"></i>Settings</a></li> -->
           <li><a href="<?=site_url('auth/logout')?>"><i data-feather="log-out"></i>                                    Logout</a></li>
         </ul>
       </li>
     </ul>
     <div class="d-lg-none mobile-toggle pull-right"><i data-feather="more-horizontal"></i></div>
   </div>
-  <script id="result-template" type="text/x-handlebars-template">
-    <div class="ProfileCard u-cf">                        
-    <div class="ProfileCard-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay m-0"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg></div>
-    <div class="ProfileCard-details">
-    <div class="ProfileCard-realName">{{name}}</div>
-    </div>
-    </div>
-  </script>
-  <script id="empty-template" type="text/x-handlebars-template">
-    <div class="EmptyMessage">Your search turned up 0 results. This most likely means the backend is down, yikes!</div>
-    
-  </script>
 </div>

@@ -158,7 +158,36 @@ class Mitra_model extends CI_Model {
             'kecamatan' => $this->_kecamatan,
             'kelurahan' => $this->_kelurahan,
             'no_telp' => $this->_notelp,
-            'tentang' => $this->_tentang
+            'tentang' => $this->_tentang,
+            'foto' => $this->_foto
+        );
+        $this->db->where('id_mitra', $this->_idmitra);
+        $msg = $this->db->update('mitra', $data);
+        if ($msg == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function update_pass() {
+        $hash = $this->hash($this->_password);
+        $data = array(
+            'email' => $this->_email,
+            'password' => $hash
+        );
+        $this->db->where('id_mitra', $this->_idmitra);
+        $msg = $this->db->update('mitra', $data);
+        if ($msg == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function upload_foto() {
+        $data = array(
+            'foto' => $this->_foto
         );
         $this->db->where('id_mitra', $this->_idmitra);
         $msg = $this->db->update('mitra', $data);

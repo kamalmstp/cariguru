@@ -16,6 +16,7 @@ class Mitraguru extends CI_Controller
         $this->load->model('M_daerah', 'daerah');
         $this->load->model('m_wilayah');
         $this->load->model('Mail', 'mail');
+        $this->load->library('upload');
     }
 
     public function index()
@@ -101,6 +102,104 @@ class Mitraguru extends CI_Controller
                 $this->session->set_flashdata('error', 'Data Tidak Disimpan');
                 redirect('mitraguru/profile', 'refresh');
             }
+    }
+
+    function upload_foto(){
+        $config['upload_path'] = './public/img/mitra/'; //path folder
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
+        $config['encrypt_name'] = TRUE; //Enkripsi nama yang terupload
+ 
+        $this->upload->initialize($config);
+        if(!empty($_FILES['filefoto']['name'])){
+ 
+            if ($this->upload->do_upload('filefoto')){
+                $gbr = $this->upload->data();
+                //Compress Image
+                $config['image_library']='gd2';
+                $config['source_image']='./public/img/mitra/'.$gbr['file_name'];
+                $config['create_thumb']= FALSE;
+                $config['maintain_ratio']= FALSE;
+                $config['quality']= '50%';
+                $config['width']= 600;
+                $config['height']= 400;
+                $config['new_image']= './public/img/mitra/'.$gbr['file_name'];
+                $this->load->library('image_lib', $config);
+                $this->image_lib->resize();
+ 
+                $gambar=$gbr['file_name'];
+                $session = $this->session->userdata('ci_seesion_key');
+                $id = $session['user_id'];
+                $this->mitra->setIdMitra($id);
+                $this->mitra->setFoto($gambar);
+                $do = $this->mitra->upload_foto();
+                if ($do == TRUE) {
+                    $this->session->set_flashdata('success', 'Foto Berhasil Di Perbarui');
+                    redirect('mitraguru/profile', 'refresh');
+                }else{
+                    $this->session->set_flashdata('error', 'Ada Kesalahan Saat Upload Foto');
+                    redirect('mitraguru/profile', 'refresh');
+                }
+            }
+        }else{
+            $this->session->set_flashdata('success', 'Tidak Ada Foto');
+            redirect('mitraguru/profile', 'refresh');
+        }
+    }
+
+    function edit_password() {
+        if ($this->session->userdata('ci_session_key_generate') == FALSE) {
+            redirect('mitra'); // the user is not logged in, redirect them!
+        } else {
+            $session = $this->session->userdata('ci_seesion_key');
+            $id = $session['user_id'];
+            $this->mitra->setIdMitra($id);
+
+            $page_data['page_name']  = 'edit_password';
+            $page_data['page_title'] = 'Edit Informasi Login';
+            $page_data['mitra'] = $this->mitra->getUserDetails();
+            $this->load->view('backend/index', $page_data);
+        }
+    }
+
+    function update_password() {
+        $email = $this->input->post('email');
+        $pass1 = $this->input->post('pass1');
+        $pass2 = $this->input->post('pass2');
+
+        if ($this->input->post('pass1') == $this->input->post('pass2')) {
+            $session = $this->session->userdata('ci_seesion_key');
+            $id = $session['user_id'];
+            $this->mitra->setIdMitra($id);
+            $this->mitra->setEmail($email);
+            $this->mitra->setPassword($pass1);
+            $q = $this->mitra->getUserDetails();
+            $chk = $this->mitra->update_pass();
+            if ($chk == TRUE) {
+                $this->load->library('encryption');
+                $mailData = array('topMsg' => 'Hi, '.$q->nama, 'bodyMsg' => 'Anda Telah Melakukan Perubahan Password', 'pwd' => $pass1, 'username' => $email);
+                $this->mail->setMailTo($email);
+                $this->mail->setMailFrom('cariguru.noreply@gmail.com');
+                $this->mail->setMailSubject('Perubahan Password di Cariguru');
+                $this->mail->setMailContent($mailData);
+                $this->mail->setTemplateName('ubah_password');
+                $this->mail->setTemplatePath('mailTemplate/');
+                $chkStatus = $this->mail->sendMail('smtp');
+
+                if ($chkStatus == TRUE) {
+                    $this->session->set_flashdata('success', 'Password Berhasil Diubah');
+                    redirect('mitraguru/edit_password');
+                } else {
+                    $this->session->set_flashdata('error', 'Error');
+                    redirect('mitraguru/edit_password');
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Data Gagal Disimpan');
+                redirect('mitraguru/edit_password');
+            }
+        }else{
+            $this->session->set_flashdata('error', 'Password Tidak Cocok, Silahkan Ulangi');
+            redirect('mitraguru/edit_password');
+        }
     }
 
     function add_ajax_kab($id_prov){

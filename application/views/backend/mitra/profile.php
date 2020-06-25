@@ -33,7 +33,12 @@
         <form>
             <div class="row mb-2">
               <div class="col-auto">
-              	<img class="img-70 rounded-circle" alt="" src="<?=base_url();?>public/img/user/user.png"></div>
+              	<?php if($mitra->foto == null){ ?>
+              	<img class="img-70 rounded-circle" alt="" src="<?=base_url();?>public/img/user/user.jpg">
+              	<?php }else{ ?>
+              	<img class="img-70 rounded-circle" alt="" src="<?=base_url('public/img/mitra/'.$mitra->foto);?>">
+              	<?php } ?>
+        	  </div>
               <div class="col">
                 <h3 class="mb-1"><?=$mitra->nama;?></h3>
                 <p class="mb-4"><?=$tipe?></p>
@@ -48,14 +53,24 @@
               <input class="form-control" placeholder="*******" name="email" readonly="readonly">
             </div>
             <div class="form-footer">
-              <!-- <button class="btn btn-primary btn-block">Ubah Password</button> -->
+              <button class="btn btn-info btn-block" data-toggle="modal" data-target="#foto" type="button">Ganti Foto</button>
             </div>
           </form>
     	</div>
 	  </div>
 	</div>
 	<div class="col-lg-8">
-
+		<?php if (!empty($this->session->flashdata('success'))) { ?>
+                  <div class="alert alert-success dark alert-dismissible fade show" role="alert">
+                    <strong>Suksess </strong><?php echo $this->session->flashdata('success'); ?>
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  </div>
+              <?php }elseif (!empty($this->session->flashdata('error'))) { ?>
+                  <div class="alert alert-danger dark alert-dismissible fade show" role="alert">
+                    <strong>Error </strong><?php echo $this->session->flashdata('error'); ?>
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  </div>
+              <?php } ?>
 		<form class="card" method="POST" action="<?=site_url('mitraguru/biodata_update')?>">
 	        <div class="card-header">
 	          <h4 class="card-title mb-0">Biodata</h4>
@@ -147,5 +162,28 @@
 	        </div>
 	      </form>
 	</div>
+  </div>
+</div>
+
+<div class="modal fade" id="foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Foto</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <form enctype="multipart/form-data" id="gurudesc" role="form" action="<?=site_url('mitraguru/upload_foto')?>" method="POST">
+      <div class="modal-body">
+          <div class="form-group">
+            <label class="col-form-label" for="recipient-name">Foto</label>
+            <input class="form-control" type="file" name="filefoto">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Simpan</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
   </div>
 </div>
