@@ -9,6 +9,14 @@ class M_daerah extends CI_Model {
         $this->load->helper('date');
     }
 
+    function get_all_provinsi() {
+        $this->db->select('*');
+        $this->db->from('wilayah_provinsi');
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
+
      public function getProv() {
         $this->db->select('*')
                 ->from('provinsi')
@@ -69,6 +77,5 @@ class M_daerah extends CI_Model {
         $query = $this->db->query($sql);
         return $query;
     }
-
 
 }

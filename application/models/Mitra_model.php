@@ -25,6 +25,7 @@ class Mitra_model extends CI_Model {
     private $_verificationKey;
     private $_status;
     private $_joindate;
+    private $_tentang;
  
     //Declaration of a methods
     public function setIdMitra($idmitra) {
@@ -103,6 +104,10 @@ class Mitra_model extends CI_Model {
         $this->_joindate = $joindate;
     }
 
+    public function setTentang($tentang) {
+        $this->_tentang = $tentang;
+    }
+
     public function get_all() {
         $mitra = $this->db->get('mitra');
         return $mitra;
@@ -144,15 +149,29 @@ class Mitra_model extends CI_Model {
  
     public function update() {
         $data = array(
-            'first_name' => $this->_tempatlahir,
-            'last_name' => $this->_tanggallahir,
-            'contact_no' => $this->_contactNo,
-            'address' => $this->_address,
-            'dob' => $this->_dob,
-            'modified_date' => $this->_joindate,
+            'nama' => $this->_nama,
+            'tempat_lahir' => $this->_tempatlahir,
+            'tanggal_lahir' => $this->_tanggallahir,
+            'alamat' => $this->_alamat,
+            'provinsi' => $this->_provinsi,
+            'kabupaten' => $this->_kabupaten,
+            'kecamatan' => $this->_kecamatan,
+            'kelurahan' => $this->_kelurahan,
+            'no_telp' => $this->_notelp,
+            'tentang' => $this->_tentang
         );
-        $this->db->where('id', $this->_idmitra);
-        $msg = $this->db->update('users', $data);
+        $this->db->where('id_mitra', $this->_idmitra);
+        $msg = $this->db->update('mitra', $data);
+        if ($msg == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function delete() {
+        $this->db->where('id_mitra', $this->_idmitra);
+        $msg = $this->db->delete('mitra');
         if ($msg == 1) {
             return TRUE;
         } else {
@@ -177,7 +196,7 @@ class Mitra_model extends CI_Model {
  
     // get User Detail
     public function getUserDetails() {
-        $this->db->select(array('m.id_mitra as user_id', 'm.nama', 'm.tempat_lahir','m.tanggal_lahir','m.alamat','m.provinsi','m.kabupaten','m.kecamatan','m.kelurahan','m.jenjang','m.kurikulum','m.mapel','m.no_telp', 'm.email', 'm.foto', 'm.verification_key', 'm.status', 'm.joindate'));
+        $this->db->select(array('m.id_mitra as user_id', 'm.nama', 'm.tempat_lahir','m.tanggal_lahir','m.alamat','m.provinsi','m.kabupaten','m.kecamatan','m.kelurahan','m.jenjang','m.kurikulum','m.mapel','m.no_telp', 'm.email', 'm.foto', 'm.verification_key', 'm.status', 'm.joindate', 'm.tentang'));
         $this->db->from('mitra as m');
         $this->db->where('m.id_mitra', $this->_idmitra);
         $query = $this->db->get();

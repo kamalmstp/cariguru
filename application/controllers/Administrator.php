@@ -221,10 +221,10 @@ class Administrator extends CI_Controller
             $chk = $this->mitra->create();
             if ($chk == TRUE) {
                 $this->load->library('encryption');
-                $mailData = array('topMsg' => 'Hi, Selamat Datang '.$nama, 'bodyMsg' => 'Selamat Bergabung Bersama Kami di CariGuru', 'loginLink' => $login, 'pwd' => $password, 'username' => $email);
+                $mailData = array('topMsg' => 'Hi, Selamat Datang '.$nama, 'bodyMsg' => 'Selamat Bergabung Bersama Kami di Cariguru', 'loginLink' => $login, 'pwd' => $password, 'username' => $email);
                 $this->mail->setMailTo($email);
                 $this->mail->setMailFrom('cariguru.noreply@gmail.com');
-                $this->mail->setMailSubject('Selamat Datang Di CariGuru');
+                $this->mail->setMailSubject('Selamat Datang Di Cariguru');
                 $this->mail->setMailContent($mailData);
                 $this->mail->setTemplateName('daftar_mitra');
                 $this->mail->setTemplatePath('mailTemplate/');
@@ -241,6 +241,19 @@ class Administrator extends CI_Controller
                 $this->session->set_flashdata('error', 'Data Gagal Disimpan');
                 redirect('administrator/mitra');
             }
+        }
+    }
+
+    function mitra_del() {
+        $id = $this->input->post('id');
+        $this->mitra->setIdMitra($id);
+        $chk = $this->mitra->delete();
+        if ($chk == TRUE) {
+            $this->session->set_flashdata('success', 'Data Berhasil Dihapus');
+            redirect(site_url('administrator/mitra'));
+        }else{
+            $this->session->set_flashdata('error', 'Data Gagal Dihapus');
+            redirect(site_url('administrator/mitra'));
         }
     }
 

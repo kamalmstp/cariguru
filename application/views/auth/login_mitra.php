@@ -52,7 +52,7 @@
                 <div class="text-center">
                   
                   <img src="<?=base_url();?>public/img/logo.png" width="5%">
-                  <h2>Login Mitra CariGuru</h2>
+                  <h2>Login Mitra Cariguru</h2>
                 </div>
             </div>
             </div>

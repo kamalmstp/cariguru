@@ -30,11 +30,11 @@
         <?php } ?>
     </div>
     <ul class="sidebar-menu">
-      <li <?php if ($page_name == 'dashboard') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('administrator')?>"><i data-feather="home"></i><span>Dashboard</span></a>
+      <li <?php if ($page_name == 'mitra') {echo "class='active'";} ?>><a class="sidebar-header" href="<?=site_url('administrator')?>"><i data-feather="home"></i><span>Dashboard</span></a>
       </li>
       <li><a class="sidebar-header" href="#"><i data-feather="users"></i><span>Pengguna</span><i class="fa fa-angle-right pull-right"></i></a>
         <ul class="sidebar-submenu">
-          <li><a href="<?=site_url('administrator/mitra')?>"><i class="fa fa-circle"></i>Guru</a></li>
+          <li <?php if ($page_name == 'mitra') {echo "class='active'";} ?>><a href="<?=site_url('administrator/mitra')?>"><i class="fa fa-circle"></i>Guru</a></li>
           <li><a href="<?=site_url('administrator/user')?>"><i class="fa fa-circle"></i>Murid</a></li>
           <li><a href="<?=site_url('administrator/admin')?>"><i class="fa fa-circle"></i>Operator</a></li>
         </ul>

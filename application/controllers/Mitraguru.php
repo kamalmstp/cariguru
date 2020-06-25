@@ -8,11 +8,13 @@ class Mitraguru extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->database();
+        $this->load->helper(array('url','html'));
         $this->load->library('session');
         $this->load->library('form_validation');
         $this->load->model('M_study');
         $this->load->model('Mitra_model', 'mitra');
         $this->load->model('M_daerah', 'daerah');
+        $this->load->model('m_wilayah');
         $this->load->model('Mail', 'mail');
     }
 
@@ -44,19 +46,96 @@ class Mitraguru extends CI_Controller
             $session = $this->session->userdata('ci_seesion_key');
             $id = $session['user_id'];
             $this->mitra->setIdMitra($id);
+            $q = $this->mitra->getUserDetails();
+            $pr = $q->provinsi;
+            $kb = $q->kabupaten;
+            $kc = $q->kecamatan;
+            $kl = $q->kelurahan;
+
+            // $a = $this->m_wilayah->getNamaKel(2147483647);
+            // $b = $a->nama;
+            // var_dump($a);
+
             $page_data['page_name'] = 'profile';
-            $page_data['page_title'] = 'Profile Mitra';
+            $page_data['page_title'] = 'Biodata Mitra';
             $page_data['mitra'] = $this->mitra->getUserDetails();
+            $page_data['tipe'] = $session['tipe'];
+            $page_data['provinsi']=$this->m_wilayah->get_all_provinsi();
+            $page_data['pr']=$this->m_wilayah->getNamaProv($pr);
+            $page_data['kb']=$this->m_wilayah->getNamaKab($kb);
+            $page_data['kc']=$this->m_wilayah->getNamaKec($kc);
+            $page_data['kl']=$this->m_wilayah->getNamaKel($kl);
             $this->load->view('backend/index', $page_data);
         }
+    }
+
+    function biodata_update() {
+            $id = $this->input->post('id');
+            $nama = $this->input->post('nama');
+            $tempat = $this->input->post('tempat_lahir');
+            $tanggal = $this->input->post('tanggal_lahir');
+            $prov = $this->input->post('prov');
+            $kab = $this->input->post('kab');
+            $kec = $this->input->post('kec');
+            $des = $this->input->post('des');
+            $alamat = $this->input->post('alamat');
+            $telp = $this->input->post('telp');
+            $tentang = $this->input->post('tentang');
+            
+            $this->mitra->setIdMitra($id);
+            $this->mitra->setNama($nama);
+            $this->mitra->setTempatlahir($tempat);
+            $this->mitra->setTanggallahir($tanggal);
+            $this->mitra->setProvinsi($prov);
+            $this->mitra->setKabupaten($kab);
+            $this->mitra->setKecamatan($kec);
+            $this->mitra->setKelurahan($des);
+            $this->mitra->setAlamat($alamat);
+            $this->mitra->setNotelp($telp);
+            $this->mitra->setTentang($tentang);
+            $update = $this->mitra->update();
+            if ($update == TRUE) {
+                $this->session->set_flashdata('success', 'Biodata Berhasil diPerbarui');
+                redirect('mitraguru/profile', 'refresh');
+            }else{
+                $this->session->set_flashdata('error', 'Data Tidak Disimpan');
+                redirect('mitraguru/profile', 'refresh');
+            }
+    }
+
+    function add_ajax_kab($id_prov){
+        $query = $this->db->get_where('wilayah_kabupaten',array('provinsi_id'=>$id_prov));
+        $data = "<option value=''>- Select Kabupaten -</option>";
+        foreach ($query->result() as $value) {
+            $data .= "<option value='".$value->id."'>".$value->nama."</option>";
+        }
+        echo $data;
+    }
+    
+    function add_ajax_kec($id_kab){
+        $query = $this->db->get_where('wilayah_kecamatan',array('kabupaten_id'=>$id_kab));
+        $data = "<option value=''> - Pilih Kecamatan - </option>";
+        foreach ($query->result() as $value) {
+            $data .= "<option value='".$value->id."'>".$value->nama."</option>";
+        }
+        echo $data;
+    }
+    
+    function add_ajax_des($id_kec){
+        $query = $this->db->get_where('wilayah_desa',array('kecamatan_id'=>$id_kec));
+        $data = "<option value=''> - Pilih Desa - </option>";
+        foreach ($query->result() as $value) {
+            $data .= "<option value='".$value->id."'>".$value->nama."</option>";
+        }
+        echo $data;
     }
 
     function jadwal() {
         if ($this->session->userdata('ci_session_key_generate') == FALSE) {
             redirect('mitra');
         } else {
-            $page_data['page_name'] = 'profile';
-            $page_data['page_title'] = 'Profile Mitra';
+            $page_data['page_name'] = 'jadwal';
+            $page_data['page_title'] = 'Jadwal Mengajar';
             $this->load->view('backend/index', $page_data);
         }
     }

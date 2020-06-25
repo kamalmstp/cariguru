@@ -20,7 +20,7 @@
       <div class="col-lg-3 col-md-6 footer-links" data-aos="fade-up" data-aos-delay="300">
         <h4>Layanan</h4>
         <ul>
-          <li><a href="#">Daftar Partner (Guru)</a></li>
+          <li><a href="https://bit.ly/mitracariguru">Daftar Partner (Guru)</a></li>
           <li><a href="#">Konfirmasi Pembayaran</a></li>
           
         </ul>
